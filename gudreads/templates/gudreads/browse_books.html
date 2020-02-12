@@ -1,0 +1,96 @@
+{% extends 'gudreads/base.html' %}
+
+{% block title %}
+    Browse Books
+{% endblock %}
+
+{% block content %}
+    <h1 class='ui header extra-top-padding'>Top Rated Books</h1>
+    <div class="ui five stackable cards">
+    {% for book in top_rated_books %}
+        <div class="card">
+        <div class="image">
+            {% if book.book_image %}
+                <img src="{{ book.book_image }}">
+            {% else %}
+                <img src="/static/gudreads/book_img.png">
+            {% endif %}
+        </div>
+        <div class="content">
+            <div class="header">{{ book.book_name }}</div>
+                {% if book.book_author %}
+                    <div class="meta">
+                        <p>{{ book.book_author }}</p>
+                    </div>
+                {% endif %}
+        </div>
+        <div class="extra">
+            Rating:
+            <div class="ui star rating" data-rating="{{ book.book_rating }}"></div>
+        </div>
+        </div>
+    {% endfor %}
+    </div>
+
+    <h1 class='ui header extra-top-padding'>Recently Added Books</h1>
+    <div class="ui five stackable cards">
+    {% for book in recently_added_books %}
+        <div class="card">
+        <div class="image">
+            {% if book.book_image %}
+                <img src="{{ book.book_image }}">
+            {% else %}
+                <img src="/static/gudreads/book_img.png">
+            {% endif %}
+        </div>
+        <div class="content">
+            <div class="header">{{ book.book_name }}</div>
+                {% if book.book_author %}
+                    <div class="meta">
+                        <p>{{ book.book_author }}</p>
+                    </div>
+                {% endif %}
+        </div>
+        <div class="extra">
+            Added: {{ book.created_at }}
+        </div>
+        </div>
+    {% endfor %}
+    </div>
+
+    <h1 class='ui header extra-top-padding'>Most Read Books</h1>
+    <div class="ui five stackable cards">
+    {% for book in most_read_books %}
+        <div class="card">
+        <div class="image">
+            {% if book.book_image %}
+                <img src="{{ book.book_image }}">
+            {% else %}
+                <img src="/static/gudreads/book_img.png">
+            {% endif %}
+        </div>
+        <div class="content">
+            <div class="header">{{ book.book_name }}</div>
+                {% if book.book_author %}
+                    <div class="meta">
+                        <p>{{ book.book_author }}</p>
+                    </div>
+                {% endif %}
+        </div>
+        <div class="extra">
+            Number of Times Read: {{ book.pk__count }}
+        </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
+
+{% block js %}
+{{ block.super }}
+<script>
+    $('.ui.rating').rating({
+		maxRating: 5,
+	})
+    $('.ui.rating').rating('disable', true)
+</script>
+{% endblock %}

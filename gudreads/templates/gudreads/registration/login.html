@@ -1,0 +1,28 @@
+{% extends 'gudreads/base.html' %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block content %}
+    <h1 class='ui header extra-top-padding'>Login</h1>
+    <form method='POST' action="{% url 'login' %}" class='ui form'>
+        {% csrf_token %}
+        {% for field in form %}
+            {{ field.label_tag }}
+            <div class='form-field'>
+                {{ field }}
+            </div>
+        {% endfor %}
+        {% if form.errors %}
+            <p class='errorlist'>Your username and password didn't match. Please try again.</p>
+        {% endif %}
+
+    <button type='submit' class='ui button primary'>Log In</button>
+    <p><a href="{% url 'password_reset' %}">Forgot password?</a></p>
+    <input type="hidden" name="next" value="{% url 'index' %}">
+    </form>
+
+    <p class='ui secondary segment'>Don't have an account? <a href="{% url 'create_account' %}">Create one here.</a></p>
+    
+{% endblock %}

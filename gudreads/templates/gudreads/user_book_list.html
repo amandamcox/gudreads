@@ -1,0 +1,92 @@
+{% extends 'gudreads/base.html' %}
+
+{% block title %}
+Your Book List
+{% endblock %}
+
+{% block content %}
+<div class='ui segment extra-top-padding'>
+    <h1 class='ui header'>Add a Book You Have Read or Want to Read</h1>
+    <form method="post" class='ui form'>
+        {% csrf_token %}
+        {% for field in form %}
+            {{ field.label_tag }}
+            {% if field.help_text %}
+                <div class='tooltip'>
+                    <i class="info circle icon"></i>
+                    <span class="tooltiptext">{{ field.help_text }}</span>
+                </div>
+            {% endif %}
+            <div class='form-field'>
+                {{ field }}
+            </div>
+            {% for error in field.errors %}
+                <p class='errorlist'>{{ error }}</p>
+            {% endfor %}
+        {% endfor %}
+        <button type="submit" class='ui button primary'>Add Book to List</button>
+    </form>
+</div>
+
+
+<h1 class='ui header'>Books You've Read or Want to Read</h1>
+{% if books_by_user %}
+    <div class="ui divided items">
+    {% for book in books_by_user %}
+        <div class="item">
+            <div class="ui tiny image">
+            {% if book.book_image %}
+                <img src="{{ book.book_image }}">
+            {% else %}
+                <img src="/static/gudreads/book_img.png">
+            {% endif %}
+            </div>
+            <div class="middle aligned content">
+                <div class="header">
+                    {{ book.book_name }}
+                </div>
+                {% if book.book_author %}
+                    <div class="meta">
+                        <p>{{ book.book_author }}</p>
+                    </div>
+                {% endif %}
+                {% if book.book_description %}
+                    <div class="description">
+                        <p>{{ book.book_description }}</p>
+                    </div>
+                {% endif %}
+                <div class="extra">
+                    <div id="rating-{{ book.book_name }}" class="ui star rating" data-rating="{{  book.book_rating }}" data-id="{{ book.id }}">
+                    </div>
+                    {% if book.book_was_read %}
+                        <i class="green check icon"></i> Read
+                    {% else %}
+                        <i class="red delete icon"></i> Haven't Read
+                    {% endif %}
+                    </div>
+                    <div class="extra content">
+                    <a role="button" class="ui grey tiny button" href="{% url 'edit_book' id=book.id %}">
+                        Edit Settings &nbsp;
+                        <i class="edit icon"></i>
+                    </a>
+                    <div class="ui red tiny button delete-button"  data-id="{{ book.id }}">
+                        Delete &nbsp;
+                        <i class="trash icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% else %}
+    <p>Add a book in the form above!</p>
+{% endif %}
+
+{% block js %}
+{{ block.super }}
+{% load static %}
+<script src="{% static 'gudreads/user_book_list.js' %}"></script>
+{% endblock %}
+
+
+{% endblock %}

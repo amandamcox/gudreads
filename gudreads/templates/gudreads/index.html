@@ -1,0 +1,17 @@
+{% extends 'gudreads/base.html' %}
+
+{% block title %}
+The second best book site on the internet!
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<div id="hero-image">
+    <img src="{% static 'gudreads/index_hero.jpg' %}" alt="Welcome to Gudreads">
+</div>
+<h1 class='ui header extra-top-padding'>Meet your next favorite book.</h1>
+<div class='ui tall stacked segment'>
+    <h4 class='ui header'>Deciding what to read next?</h4>
+    <p>You’re in the right place. Tell us what titles you've enjoyed in the past, track information on them, and even track books you want to read.</p>
+</div>
+{% endblock %}

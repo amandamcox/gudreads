@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block header %}
+        <title>{% block title %}{% endblock %} - Gudreads</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% load static %}
+        <link rel="apple-touch-icon" sizes="180x180" href="{% static 'gudreads/apple-touch-icon.png' %}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{% static 'gudreads/favicon-32x32.png' %}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{% static 'gudreads/favicon-16x16.png' %}">
+        <link rel="manifest" href="{% static 'gudreads/site.webmanifest' %}">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+        <link rel="stylesheet" type="text/css" href="{% static 'gudreads/style.css' %}">
+        {% endblock %}
+    </head>
+    <body>
+        <nav>
+            <div id="navigation" class="ui stackable secondary pointing menu">
+                <div class="logo item"><img src="{% static 'gudreads/gudreads_logo.png' %}"></div>
+                <a class="item" href="{% url 'index' %}">Home</a>
+                <a class="item" href="{% url 'browse_books' %}">Browse Books</a>
+                {% if user.is_authenticated %}
+                    <a class="item" href="{% url 'user_book_list_page' %}">Your Book List</a>
+                {% endif %}
+                <div class="right menu">
+                    {% if user.is_authenticated %}
+                        <a class="item" href="{% url 'change_password' %}">Change Password</a>
+                        <a class="item" href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                        <a class="item" href="{% url 'create_account' %}">Create Account</a>
+                        <a class="item" href="{% url 'login' %}">Log In</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+        <section class='ui container'>
+    {% block content %}
+    {% endblock %}
+    {% block js %}
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    {% endblock %}
+        </section>
+    </body>
+</html>
