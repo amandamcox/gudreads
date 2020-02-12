@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '5xttpo2wp2afy%zg^dg)rf3(q6z-z)7^j$r%*2d1cq)-jp*l-b'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -80,10 +80,6 @@ WSGI_APPLICATION = 'spacebase.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'GudreadsDb',
-        'USER': 'postgres',
-        'PASSWORD': 'spacebase',
-        'HOST': 'localhost'
     }
 }
 
@@ -123,7 +119,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
@@ -142,10 +137,6 @@ EMAIL_HOST_PASSWORD = 'SG.gOb2KEHoSf-uXeEQdpowig.80sPRef6swGgvR9OiuUHm6LWx7RBl3s
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'Gudreads <no-reply@gudreads.com>'
 
-
-# Secrets
-GOODREADS_API_KEY = config('GOODREADS_API_KEY', default='')
-GOODREADS_SECRET_KEY = config('GOODREADS_SECRET_KEY', default='')
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
