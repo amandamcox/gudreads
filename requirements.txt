@@ -13,3 +13,4 @@ sqlparse==0.3.0
 virtualenv==20.0.1
 virtualenvwrapper-win==1.2.5
 whitenoise==5.0.1
+decouple==3.3
