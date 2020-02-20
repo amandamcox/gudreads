@@ -79,22 +79,22 @@ WSGI_APPLICATION = 'spacebase.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 # For Production
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default=config('DATABASE_URL')
-#     )
-# }
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
+}
 
 # For Development
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'GudreadsDb',
-        'USER': config('DEV_DB_USER'),
-        'PASSWORD': config('DEV_DB_PASS'),
-        'HOST': 'localhost'
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'GudreadsDb',
+#         'USER': config('DEV_DB_USER'),
+#         'PASSWORD': config('DEV_DB_PASS'),
+#         'HOST': 'localhost'
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
