@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'spacebase.wsgi.application'
 # For Production
 DATABASES = {
     'default': dj_database_url.config(
-        default=config('DATABASE_URL')
+        default=config('HEROKU_POSTGRESQL_CHARCOAL_URL')
     )
 }
 
