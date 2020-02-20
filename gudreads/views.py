@@ -1,10 +1,14 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpRequest, JsonResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.db.models import Count
+from django.conf import settings
 from .models import BookList
 from .forms import CreateAccountForm, AddBookToList, EditBook
+import requests
+import xml.etree.ElementTree as ET
+import json
 
 
 def index(request):
@@ -33,7 +37,6 @@ def user_book_list_page(request):
     if not request.user.is_authenticated:
         return redirect('login')
     else:
-
         if request.method == 'POST':
             form = AddBookToList(request.POST)
             if form.is_valid():
@@ -52,6 +55,7 @@ def update_book(request, id):
     if request.GET['rating']:
         rating = request.GET['rating']
         book.book_rating = rating
+        book.book_was_read = True
         book.save()
         return redirect('user_book_list_page')
 
@@ -91,3 +95,28 @@ def browse_books(request):
     most_read_books = BookList.objects.filter(book_was_read=True).values(
         'book_name').annotate(Count('pk')).order_by('-pk__count')[:5]
     return render(request, 'gudreads/browse_books.html', {'top_rated_books': top_rated_books, 'recently_added_books': recently_added_books, 'most_read_books': most_read_books})
+
+
+def get_goodreads_results(request):
+    query = request.GET.get('query', None)
+    response = requests.get(
+        f'https://www.goodreads.com/search/index.xml?key={settings.GOODREADS_API_KEY}&q={query}&search[field]=title')
+    root = ET.fromstring(response.content)
+    search_results = []
+    for book in root.findall('./search/results/work'):
+        book_data = {}
+        for child in book:
+            if child.tag == 'best_book':
+                book_elems = child.getchildren()
+                for book_elem in book_elems:
+                    if book_elem.tag == 'title':
+                        book_data['value'] = book_elem.text
+                    if book_elem.tag == 'image_url':
+                        book_data['image'] = book_elem.text
+                    if book_elem.tag == 'author':
+                        author_elems = book_elem.getchildren()
+                        for author_elem in author_elems:
+                            if author_elem.tag == 'name':
+                                book_data['author'] = author_elem.text
+        search_results.append(book_data)
+    return JsonResponse(json.dumps(search_results), safe=False)

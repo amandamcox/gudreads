@@ -33,6 +33,10 @@
 	margin-top: 1em !important;
 }
 
+.image img {
+	max-height: 230px;
+}
+
 .tooltip {
 	display: inline-block;
 }
@@ -62,4 +66,31 @@
 
 .form-field {
 	margin-bottom: 1em;
+}
+
+.ui-autocomplete {
+	position: absolute;
+}
+
+.ui-menu {
+	background: white;
+	border: 1px solid #ccc;
+	list-style-type: none;
+}
+
+.ui-menu-item {
+	margin-left: -2em;
+}
+
+.ui-menu a {
+	color: black;
+}
+
+.ui-state-focus,
+.ui-menu-item:hover {
+	background: #e4eded;
+}
+
+.ui-helper-hidden-accessible {
+	display: none;
 }

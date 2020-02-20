@@ -8,7 +8,9 @@ const showRatings = () => {
 				data: {
 					rating,
 				},
-				success: '',
+				success: function() {
+					location.reload()
+				},
 			})
 		},
 	})
@@ -25,4 +27,27 @@ $('.delete-button').click(function() {
 			location.reload()
 		},
 	})
+})
+
+$('#id_book_name').on('input', function() {
+	let bookQuery = $(this).val()
+	if (bookQuery.length > 2) {
+		$.ajax({
+			url: 'ajax/autocomplete',
+			data: {
+				query: encodeURIComponent(bookQuery),
+			},
+			success: function(results) {
+				const resultsArr = JSON.parse(results)
+				$('#id_book_name').autocomplete({
+					source: resultsArr,
+					select: function(event, ui) {
+						$('#id_book_name').val(ui.item.value)
+						$('#id_book_author').val(ui.item.author)
+						$('#id_book_image').val(ui.item.image)
+					},
+				})
+			},
+		})
+	}
 })

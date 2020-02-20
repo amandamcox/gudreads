@@ -78,12 +78,23 @@ WSGI_APPLICATION = 'spacebase.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=config('DATABASE_URL')
-    )
-}
+# For Production
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default=config('DATABASE_URL')
+#     )
+# }
 
+# For Development
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'GudreadsDb',
+        'USER': config('DEV_DB_USER'),
+        'PASSWORD': config('DEV_DB_PASS'),
+        'HOST': 'localhost'
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -139,6 +150,8 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'Gudreads <no-reply@gudreads.com>'
 
+# Goodreads API Key
+GOODREADS_API_KEY = config('GOODREADS_API_KEY')
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())

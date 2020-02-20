@@ -9,7 +9,7 @@ Your Book List
     <h1 class='ui header'>Add a Book You Have Read or Want to Read</h1>
     <form method="post" class='ui form'>
         {% csrf_token %}
-        {% for field in form %}
+        {% for field in form.visible_fields %}
             {{ field.label_tag }}
             {% if field.help_text %}
                 <div class='tooltip'>
@@ -23,6 +23,9 @@ Your Book List
             {% for error in field.errors %}
                 <p class='errorlist'>{{ error }}</p>
             {% endfor %}
+        {% endfor %}
+        {% for field in form.hidden_fields %}
+            <div style="display: none;">{{ field }}</div>
         {% endfor %}
         <button type="submit" class='ui button primary'>Add Book to List</button>
     </form>
@@ -85,6 +88,8 @@ Your Book List
 {% block js %}
 {{ block.super }}
 {% load static %}
+<script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <script src="{% static 'gudreads/user_book_list.js' %}"></script>
 {% endblock %}
 

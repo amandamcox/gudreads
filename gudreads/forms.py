@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.conf import settings
 from .models import BookList
 
 
@@ -21,10 +20,14 @@ class CreateAccountForm(UserCreationForm):
 class AddBookToList(forms.ModelForm):
     book_name = forms.CharField(
         max_length=100, required=True, help_text='Enter a book title. Ex: Harry Potter and the Goblet of Fire')
+    book_author = forms.CharField(
+        max_length=100, required=False, widget=forms.HiddenInput())
+    book_image = forms.URLField(
+        max_length=300, required=False, widget=forms.HiddenInput())
 
     class Meta:
         model = BookList
-        fields = ['book_name']
+        fields = ['book_name', 'book_author', 'book_image']
 
 
 class EditBook(forms.ModelForm):

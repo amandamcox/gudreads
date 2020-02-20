@@ -24,5 +24,7 @@ urlpatterns = [
     path('user_books/update/<int:id>', views.update_book, name='update_book'),
     path('user_books/delete/<int:id>', views.delete_book, name='delete_book'),
     path('user_books/edit/<int:id>', views.edit_book, name='edit_book'),
-    path('browse_books', views.browse_books, name='browse_books')
+    path('browse_books', views.browse_books, name='browse_books'),
+    path('user_books/ajax/autocomplete',
+         views.get_goodreads_results, name='ajax_autocomplete')
 ]
